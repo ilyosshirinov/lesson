@@ -49,5 +49,18 @@ public interface MarkRepository extends CrudRepository<MarkEntity, Integer>, Pag
     @Query("SELECT AVG(s.mark) FROM MarkEntity as s WHERE s.student.id = ?1 and s.course.id = ?2")
     Double getByStudentCourseAverageMark(Integer student_id, Integer course_id);
 
+    @Query("SELECT COUNT(*) FROM MarkEntity as s WHERE s.student.id = ?1 and s.mark > ?2")
+    Double getByStudentHigherMark(Integer student_id, Integer student_mark);
+
+
+    @Query("select MAX(s.mark) FROM MarkEntity as s WHERE s.course.id = ?1")
+    Integer getByCourseHigherMark(Integer course_id);
+
+    @Query("SELECT AVG(s.mark) FROM MarkEntity as s WHERE s.course.id = ?1")
+    Double getByCourseAverageMark(Integer course_id);
+
+    @Query("SELECT count(*) FROM MarkEntity as s WHERE s.course.id = ?1")
+    Double getByCourseGradesCountMark(Integer course_id);
+
 
 }

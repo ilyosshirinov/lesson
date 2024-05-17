@@ -116,7 +116,7 @@ public class MarkController {
     }
 
     @GetMapping("/studentAverage/mark/{student_id}")
-    public ResponseEntity<MarkDto> studentAverageMark(@PathVariable("student_id") Integer student_id){
+    public ResponseEntity<MarkDto> studentAverageMark(@PathVariable("student_id") Integer student_id) {
         // todo 16. Studentni o'rtacha olgan baxolari.
         return ResponseEntity.ok(markService.studentAverageMarkService(student_id));
     }
@@ -128,6 +128,29 @@ public class MarkController {
         return ResponseEntity.ok(markService.studentCourseAverageMarkService(student_id, course_id));
     }
 
+    @GetMapping("/studentHigher/mark/{student_id}/{student_mark}")
+    public ResponseEntity<?> studentHigherMark(@PathVariable("student_id") Integer student_id,
+                                               @PathVariable("student_mark") Integer student_mark) {
+        // todo 18. Studentni berilgan baxodan katta bo'lgan baxolari soni.  //add va shu baholarni kimlar olgan
+        return ResponseEntity.ok(markService.studentHigherMarkService(student_id, student_mark));
+    }
 
+    @GetMapping("/courseHigher/mark/{course_id}")
+    public ResponseEntity<?> courseHigherMark(@PathVariable("course_id") Integer course_id) {
+        // todo 19. Berilgan Cursdan eng baland baxo. //add  va shu bahoni kim olgan
+        return ResponseEntity.ok(markService.courseHigherMarkService(course_id));
+    }
+
+    @GetMapping("/courseAverage/mark/{course_id}")
+    public ResponseEntity<?> courseAverageMark(@PathVariable("course_id") Integer course_id) {
+        // todo 20. Berilgan Cursdan o'lingan o'rtacha baxo.
+        return ResponseEntity.ok(markService.courseAverageMarkService(course_id));
+    }
+
+    @GetMapping("/courseGradesCount/mark/{course_id}")
+    public ResponseEntity<?> courseGradesCountMark(@PathVariable("course_id") Integer course_id) {
+        // todo 21. Berilgan Course dan olingna baxolar soni.
+        return ResponseEntity.ok(markService.courseGradesCountService(course_id));
+    }
 
 }

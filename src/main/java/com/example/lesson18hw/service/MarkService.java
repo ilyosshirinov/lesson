@@ -273,6 +273,35 @@ public class MarkService {
         return markDto;
     }
 
+    public MarkDto studentHigherMarkService(Integer student_id, Integer student_mark) {
+        Double integer = markRepository.getByStudentHigherMark(student_id, student_mark);
+        MarkDto markDto = new MarkDto();
+        markDto.setCount(integer);
+        return markDto;
+
+    }
+
+    public MarkDto courseHigherMarkService(Integer course_id) {
+        Integer integer = markRepository.getByCourseHigherMark(course_id);
+        MarkDto markDto = new MarkDto();
+        markDto.setHigher(integer);
+        return markDto;
+    }
+
+    public MarkDto courseAverageMarkService(Integer course_id) {
+        Double integer = markRepository.getByCourseAverageMark(course_id);
+        MarkDto markDto = new MarkDto();
+        markDto.setAverage(integer);
+        return markDto;
+    }
+
+    public MarkDto courseGradesCountService(Integer course_id) {
+        Double aDouble = markRepository.getByCourseGradesCountMark(course_id);
+        MarkDto markDto = new MarkDto();
+        markDto.setCount(aDouble);
+        return markDto;
+    }
+
     //TODO                    METHOD
     public MarkEntity get(Integer id) {
         return markRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Mark not found"));
@@ -300,7 +329,6 @@ public class MarkService {
         markDto.setCreatedDate(entity.getCreatedDate());
         return markDto;
     }
-
 
 
 }
