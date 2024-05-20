@@ -4,12 +4,10 @@ import com.example.lesson18hw.Mapper.CourseMapper;
 import com.example.lesson18hw.dto.CourseDTO;
 import com.example.lesson18hw.entity.CourseEntity;
 import com.example.lesson18hw.repository.CourseRepository;
-import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

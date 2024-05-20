@@ -9,10 +9,7 @@ import com.example.lesson18hw.entity.MarkEntity;
 import com.example.lesson18hw.entity.StudentEntity;
 import com.example.lesson18hw.repository.MarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -312,6 +309,20 @@ public class MarkService {
         return responsePage(entityPage, pageable);
     }
 
+    public Page<MarkDto> byStudentIdPaginationMarkService(Integer student_id, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate"));
+        Page<MarkEntity> entityPage = markRepository.findAllByStudentIdOrderByCreatedDate(pageable, student_id);
+
+        return responsePage(entityPage, pageable);
+    }
+
+    public Page<MarkDto> byCourseIdPaginationMarkService(Integer course_id, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate"));
+        Page<MarkEntity> entityPage = markRepository.findAllByCourseIdOrderByCreatedDate(pageable, course_id);
+
+        return responsePage(entityPage, pageable);
+    }
+
     //TODO                    METHOD
     public MarkEntity get(Integer id) {
         return markRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Mark not found"));
@@ -344,19 +355,36 @@ public class MarkService {
     public Page<MarkDto> responsePage(Page<MarkEntity> entityPage, Pageable pageable) {
         List<MarkDto> list = new ArrayList<>();
         for (MarkEntity entity : entityPage.getContent()) {
-            MarkDto markDto = new MarkDto();
-            markDto.setId(entity.getId());
+            MarkDto dto = new MarkDto();
+            dto.setId(entity.getId());
+            dto.setMark(entity.getMark());
+            dto.setCreatedDate(entity.getCreatedDate());
 
-            markDto.setStudentId(entity.getStudent().getId());
-            markDto.setCourseId(entity.getCourse().getId());
+            // student
+            StudentEntity student = studentService.get(entity.getStudent().getId());
+            StudentDTO studentDTO = new StudentDTO();
+            studentDTO.setId(student.getId());
+            studentDTO.setName(student.getName());
+            studentDTO.setSurname(student.getSurname());
+            studentDTO.setAge(student.getAge());
+            studentDTO.setLevel(student.getLevel());
+            dto.setStudent(studentDTO);
 
-            markDto.setMark(entity.getMark());
-            markDto.setCreatedDate(entity.getCreatedDate());
-            list.add(markDto);
+            // course
+            CourseEntity course = courseService.get(entity.getCourse().getId());
+            CourseDTO courseDTO = new CourseDTO();
+            courseDTO.setId(course.getId());
+            courseDTO.setName(course.getName());
+            courseDTO.setPrice(course.getPrice());
+            courseDTO.setDuration(course.getDuration());
+            courseDTO.setCreatedDate(course.getCreatedDate());
+            dto.setCourse(courseDTO);
+
+            list.add(dto);
+
         }
         long totalElements = entityPage.getTotalElements();
         return new PageImpl<>(list, pageable, totalElements);
-
     }
 
 

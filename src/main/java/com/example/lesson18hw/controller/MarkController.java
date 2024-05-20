@@ -2,12 +2,10 @@ package com.example.lesson18hw.controller;
 
 import com.example.lesson18hw.dto.MarkDto;
 import com.example.lesson18hw.service.MarkService;
-import jakarta.persistence.MapKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.yaml.snakeyaml.error.Mark;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -157,6 +155,23 @@ public class MarkController {
     @GetMapping("/pagination/mark")
     public ResponseEntity<Page<MarkDto>> paginationMark(@RequestParam("page") Integer page,
                                                         @RequestParam("size") Integer size) {
+        // todo 22. StudentCourseMark pagination.
         return ResponseEntity.ok(markService.paginationMarkService(page, size));
+    }
+
+    @GetMapping("/byStudentId/pagination/mark")
+    public ResponseEntity<Page<MarkDto>> byStudentIdPaginationMark(@RequestParam("student_id") Integer student_id,
+                                                                   @RequestParam("page") Integer page,
+                                                                   @RequestParam("size") Integer size) {
+        // todo 23. StudentCourseMark pagination by given studentId. List should be sorted by createdDate.
+        return ResponseEntity.ok(markService.byStudentIdPaginationMarkService(student_id, page - 1, size));
+    }
+
+    @GetMapping("/byCourseId/pagination/mark")
+    public ResponseEntity<Page<MarkDto>> byCourseIdPaginationMark(@RequestParam("course_id") Integer course_id,
+                                                                   @RequestParam("page") Integer page,
+                                                                   @RequestParam("size") Integer size) {
+        // todo 23. StudentCourseMark pagination by given studentId. List should be sorted by createdDate.
+        return ResponseEntity.ok(markService.byCourseIdPaginationMarkService(course_id, page - 1, size));
     }
 }

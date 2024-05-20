@@ -1,7 +1,6 @@
 package com.example.lesson18hw.controller;
 
 import com.example.lesson18hw.dto.StudentDTO;
-import com.example.lesson18hw.entity.StudentEntity;
 import com.example.lesson18hw.enums.Gender;
 import com.example.lesson18hw.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.net.ssl.SSLEngineResult;
-import java.io.ObjectInputFilter;
 import java.time.LocalDate;
 import java.util.List;
 
