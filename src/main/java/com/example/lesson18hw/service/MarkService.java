@@ -11,7 +11,6 @@ import com.example.lesson18hw.repository.MarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.error.Mark;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -325,7 +324,7 @@ public class MarkService {
     }
 
     public List<MarkDto> byStudentIdJoinFetchCourseMarkService(Integer student_id) {
-        List<MarkEntity> entity = markRepository.findAllByStudentIda(student_id);
+        List<MarkEntity> entity = markRepository.getByStudentId(student_id);
         List<MarkDto> list = new ArrayList<>();
 
         for (MarkEntity markEntity : entity) {
@@ -339,6 +338,28 @@ public class MarkService {
             courseDTO.setName(markEntity.getCourse().getName());
             courseDTO.setDuration(markEntity.getCourse().getDuration());
             markDto.setCourse(courseDTO);
+
+            list.add(markDto);
+        }
+
+        return list;
+    }
+
+    public List<MarkDto> byCourseIdJoinFetchCourseMarkService(Integer course_id) {
+        List<MarkEntity> entity = markRepository.getStudentId(course_id);
+        List<MarkDto> list = new ArrayList<>();
+
+        for (MarkEntity markEntity : entity) {
+            MarkDto markDto = new MarkDto();
+            markDto.setId(markEntity.getId());
+            markDto.setMark(markEntity.getMark());
+            markDto.setCreatedDate(markEntity.getCreatedDate());
+
+            StudentDTO dto = new StudentDTO();
+            dto.setId(markEntity.getStudent().getId());
+            dto.setName(markEntity.getStudent().getName());
+            dto.setSurname(markEntity.getStudent().getSurname());
+            markDto.setStudent(dto);
 
             list.add(markDto);
         }

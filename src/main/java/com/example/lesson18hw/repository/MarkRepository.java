@@ -72,6 +72,9 @@ public interface MarkRepository extends CrudRepository<MarkEntity, Integer>, Pag
     Page<MarkEntity> findAllByCourseIdOrderByCreatedDate(Pageable pageable, Integer course_id);
 
     @Query("from MarkEntity as s join fetch s.course where s.student.id = :student_id")
-    List<MarkEntity> findAllByStudentIda(@Param("student_id") Integer student_id);
+    List<MarkEntity> getByStudentId(@Param("student_id") Integer student_id);
+
+    @Query("from MarkEntity as s join fetch s.student where s.course.id = :course_id")
+    List<MarkEntity> getStudentId(@Param("course_id") Integer course_id);
 
 }

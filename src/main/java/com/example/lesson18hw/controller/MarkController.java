@@ -177,6 +177,21 @@ public class MarkController {
 
     @GetMapping("/byStudentIdJoinFetchCourse/mark")
     public ResponseEntity<List<MarkDto>> byStudentIdJoinFetchCourseMark(@RequestParam("student_id") Integer student_id){
+        // todo 25. Berilgan studentId-si orqali u olgan baxolari ro'yhatini return qiling.
+        //        Service quyidagi ma'lumotlar return qilinishi kerak.
+        //      studentCourse{id,mark,createdDate,
+        //                    course{id,name,title}
+        //        }
         return ResponseEntity.ok(markService.byStudentIdJoinFetchCourseMarkService(student_id));
+    }
+
+    @GetMapping("/byCourseIdJoinFetchCourse/mark")
+    public ResponseEntity<List<MarkDto>> byCourseIdJoinFetchCourseMark(@RequestParam("course_id") Integer course_id){
+        // todo 26. Berilgan Cours-ning id-si orqali undan olingna baxolarni return qiling.
+        //        Service quyidagi ma'lumotlar return qilinishi kerak.
+        //        studentCourse{id,mark,createdDate,
+        //                            student{id,name,surname}
+        //                }
+        return ResponseEntity.ok(markService.byCourseIdJoinFetchCourseMarkService(course_id));
     }
 }
