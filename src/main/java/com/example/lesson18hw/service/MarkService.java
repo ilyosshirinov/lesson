@@ -11,6 +11,7 @@ import com.example.lesson18hw.repository.MarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.error.Mark;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -321,6 +322,28 @@ public class MarkService {
         Page<MarkEntity> entityPage = markRepository.findAllByCourseIdOrderByCreatedDate(pageable, course_id);
 
         return responsePage(entityPage, pageable);
+    }
+
+    public List<MarkDto> byStudentIdJoinFetchCourseMarkService(Integer student_id) {
+        List<MarkEntity> entity = markRepository.findAllByStudentIda(student_id);
+        List<MarkDto> list = new ArrayList<>();
+
+        for (MarkEntity markEntity : entity) {
+            MarkDto markDto = new MarkDto();
+            markDto.setId(markEntity.getId());
+            markDto.setMark(markEntity.getMark());
+            markDto.setCreatedDate(markEntity.getCreatedDate());
+
+            CourseDTO courseDTO = new CourseDTO();
+            courseDTO.setId(markEntity.getCourse().getId());
+            courseDTO.setName(markEntity.getCourse().getName());
+            courseDTO.setDuration(markEntity.getCourse().getDuration());
+            markDto.setCourse(courseDTO);
+
+            list.add(markDto);
+        }
+
+        return list;
     }
 
     //TODO                    METHOD

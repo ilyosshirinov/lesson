@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -63,11 +64,14 @@ public interface MarkRepository extends CrudRepository<MarkEntity, Integer>, Pag
 
     @Query("SELECT count(*) FROM MarkEntity as s WHERE s.course.id = ?1")
     Double getByCourseGradesCountMark(Integer course_id);
+
     @Query("from MarkEntity as s where s.student.id = ?1 order by s.createdDate asc")
     Page<MarkEntity> findAllByStudentIdOrderByCreatedDate(Pageable pageable, Integer student_id);
 
     @Query("from MarkEntity as s where s.course.id = ?1 order by s.createdDate asc")
     Page<MarkEntity> findAllByCourseIdOrderByCreatedDate(Pageable pageable, Integer course_id);
 
+    @Query("from MarkEntity as s join fetch s.course where s.student.id = :student_id")
+    List<MarkEntity> findAllByStudentIda(@Param("student_id") Integer student_id);
 
 }

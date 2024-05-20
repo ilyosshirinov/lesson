@@ -174,4 +174,9 @@ public class MarkController {
         // todo 23. StudentCourseMark pagination by given studentId. List should be sorted by createdDate.
         return ResponseEntity.ok(markService.byCourseIdPaginationMarkService(course_id, page - 1, size));
     }
+
+    @GetMapping("/byStudentIdJoinFetchCourse/mark")
+    public ResponseEntity<List<MarkDto>> byStudentIdJoinFetchCourseMark(@RequestParam("student_id") Integer student_id){
+        return ResponseEntity.ok(markService.byStudentIdJoinFetchCourseMarkService(student_id));
+    }
 }
