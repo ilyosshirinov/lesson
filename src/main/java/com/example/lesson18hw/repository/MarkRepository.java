@@ -77,4 +77,12 @@ public interface MarkRepository extends CrudRepository<MarkEntity, Integer>, Pag
     @Query("from MarkEntity as s join fetch s.student where s.course.id = :course_id")
     List<MarkEntity> getStudentId(@Param("course_id") Integer course_id);
 
+    @Query("""
+            select sc from MarkEntity as sc
+            join fetch sc.student s
+            join fetch sc.course c
+            where s.id = :student_id
+            """)
+    List<MarkEntity> getAllMarkStudentCourse(@Param("student_id") Integer student_id);
+
 }

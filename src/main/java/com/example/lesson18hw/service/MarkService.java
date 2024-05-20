@@ -367,6 +367,33 @@ public class MarkService {
         return list;
     }
 
+    public List<MarkDto> allStudentCourseMarkService(Integer student_id) {
+        List<MarkEntity> entity = markRepository.getAllMarkStudentCourse(student_id);
+        List<MarkDto> list = new ArrayList<>();
+
+        for (MarkEntity markEntity : entity) {
+            MarkDto markDto = new MarkDto();
+            markDto.setId(markEntity.getId());
+            markDto.setMark(markEntity.getMark());
+            markDto.setCreatedDate(markEntity.getCreatedDate());
+
+            CourseDTO courseDTO = new CourseDTO();
+            courseDTO.setId(markEntity.getCourse().getId());
+            courseDTO.setName(markEntity.getCourse().getName());
+            courseDTO.setDuration(markEntity.getCourse().getDuration());
+            markDto.setCourse(courseDTO);
+
+            StudentDTO dto = new StudentDTO();
+            dto.setId(markEntity.getStudent().getId());
+            dto.setName(markEntity.getStudent().getName());
+            dto.setSurname(markEntity.getStudent().getSurname());
+            markDto.setStudent(dto);
+
+            list.add(markDto);
+        }
+        return list;
+    }
+
     //TODO                    METHOD
     public MarkEntity get(Integer id) {
         return markRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Mark not found"));

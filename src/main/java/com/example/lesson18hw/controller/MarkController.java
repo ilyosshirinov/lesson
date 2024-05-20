@@ -194,4 +194,16 @@ public class MarkController {
         //                }
         return ResponseEntity.ok(markService.byCourseIdJoinFetchCourseMarkService(course_id));
     }
+
+    @GetMapping("/allStudentCourse/mark")
+    public ResponseEntity<List<MarkDto>> allStudentCourseMark(@RequestParam("student_id") Integer student_id){
+        // todo 25. 27. Xar bir olingan baxo, kurs ma'lumot, student ma'lumotini retunr qiladigna method yozing.
+        //	    Service quyidagi ma'lumotlar return qilinishi kerak.
+        //	    studentCourse{
+        //	        id,mark,createdDate,
+        //	        student{id,name,surname},
+        //	        course{id,title}
+        //	        }
+        return ResponseEntity.ok(markService.allStudentCourseMarkService(student_id));
+    }
 }
