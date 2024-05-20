@@ -9,6 +9,10 @@ import com.example.lesson18hw.entity.MarkEntity;
 import com.example.lesson18hw.entity.StudentEntity;
 import com.example.lesson18hw.repository.MarkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -302,6 +306,12 @@ public class MarkService {
         return markDto;
     }
 
+    public Page<MarkDto> paginationMarkService(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MarkEntity> entityPage = markRepository.findAll(pageable);
+        return responsePage(entityPage, pageable);
+    }
+
     //TODO                    METHOD
     public MarkEntity get(Integer id) {
         return markRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Mark not found"));
@@ -328,6 +338,25 @@ public class MarkService {
         markDto.setMark(entity.getMark());
         markDto.setCreatedDate(entity.getCreatedDate());
         return markDto;
+    }
+
+    // TODO METHOD Page
+    public Page<MarkDto> responsePage(Page<MarkEntity> entityPage, Pageable pageable) {
+        List<MarkDto> list = new ArrayList<>();
+        for (MarkEntity entity : entityPage.getContent()) {
+            MarkDto markDto = new MarkDto();
+            markDto.setId(entity.getId());
+
+            markDto.setStudentId(entity.getStudent().getId());
+            markDto.setCourseId(entity.getCourse().getId());
+
+            markDto.setMark(entity.getMark());
+            markDto.setCreatedDate(entity.getCreatedDate());
+            list.add(markDto);
+        }
+        long totalElements = entityPage.getTotalElements();
+        return new PageImpl<>(list, pageable, totalElements);
+
     }
 
 

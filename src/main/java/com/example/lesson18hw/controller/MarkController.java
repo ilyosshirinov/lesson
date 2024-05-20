@@ -4,6 +4,7 @@ import com.example.lesson18hw.dto.MarkDto;
 import com.example.lesson18hw.service.MarkService;
 import jakarta.persistence.MapKey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yaml.snakeyaml.error.Mark;
@@ -153,4 +154,9 @@ public class MarkController {
         return ResponseEntity.ok(markService.courseGradesCountService(course_id));
     }
 
+    @GetMapping("/pagination/mark")
+    public ResponseEntity<Page<MarkDto>> paginationMark(@RequestParam("page") Integer page,
+                                                        @RequestParam("size") Integer size) {
+        return ResponseEntity.ok(markService.paginationMarkService(page, size));
+    }
 }
